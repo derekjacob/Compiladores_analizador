@@ -8,7 +8,22 @@ public enum TipoToken
 
 
     // Palabras clave:
-    Y, CLASE,
+    AND,
+    CLASS,
+    ELSE,
+    FALSE,
+    FOR,
+    FUNCTION,
+    IF,
+    NULL,
+    OR,
+    PRINTLN,
+    RETURN,
+    SUPER,
+    THIS,
+    TRUE,
+    VAR,
+    WHILE,
 
     // Final de cadena
     EOF
