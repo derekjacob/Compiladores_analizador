@@ -18,20 +18,22 @@ public class Scanner
         palabrasReservadas = new HashMap<>();
         palabrasReservadas.put("y", TipoToken.Y);
         palabrasReservadas.put("clase", TipoToken.CLASE);
-        /*palabrasReservadas.put("ademas", );
-        palabrasReservadas.put("falso", );
-        palabrasReservadas.put("para", );
-        palabrasReservadas.put("fun", ); //definir funciones
-        palabrasReservadas.put("si", );
-        palabrasReservadas.put("nulo", );
-        palabrasReservadas.put("o", );
-        palabrasReservadas.put("imprimir", );
-        palabrasReservadas.put("retornar", );
-        palabrasReservadas.put("super", );
-        palabrasReservadas.put("este", );
-        palabrasReservadas.put("verdadero", );
-        palabrasReservadas.put("var", ); //definir variables
-        palabrasReservadas.put("mientras", );*/
+        palabrasReservadas.put("and", TipoToken.AND);
+        palabrasReservadas.put("class", TipoToken.CLASS);
+        palabrasReservadas.put("else", TipoToken.ELSE );
+        palabrasReservadas.put("false", TipoToken.FALSE );
+        palabrasReservadas.put("for", TipoToken.FOR );
+        palabrasReservadas.put("function", TipoToken.FUNCTION ); //definir funciones
+        palabrasReservadas.put("if", TipoToken.IF );
+        palabrasReservadas.put("nulL", TipoToken.NULL );
+        palabrasReservadas.put("or", TipoToken.OR );
+        palabrasReservadas.put("println", TipoToken.PRINTLN );
+        palabrasReservadas.put("return", TipoToken.RETURN );
+        palabrasReservadas.put("super", TipoToken.SUPER );
+        palabrasReservadas.put("this", TipoToken.THIS );
+        palabrasReservadas.put("true", TipoToken.TRUE );
+        palabrasReservadas.put("var", TipoToken.VAR ); //definir variables
+        palabrasReservadas.put("while", TipoToken.WHILE );
     }
 
     Scanner(String source){
