@@ -14,7 +14,7 @@ public class Interprete
 
     public static void main(String[] args)
     {
-        ejecutar("for==00for;");
+        ejecutar("if(\"lunes5\" si !=25);");
         /*if(args.length > 1)
         {
             System.out.println("Uso correcto: interprete [script]");

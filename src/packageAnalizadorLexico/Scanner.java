@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.crypto.spec.ChaCha20ParameterSpec;
+import javax.lang.model.util.ElementScanner14;
+
 import java.lang.String;
 
 public class Scanner
@@ -67,6 +71,7 @@ public class Scanner
 
     List<Token> scanTokens(){
         int posicion = 0;
+        int estados = 0;
         // Lista para detectar los numeros
         List<String> numeros = new ArrayList<>();
         numeros.add("0");
@@ -85,22 +90,64 @@ public class Scanner
         // Analisis de la linea leida caracter por caracter.
         while(posicion < caracteres.length){
             aux2 = aux + caracteres[posicion];
+            if( simbolos.containsKey(caracteres[posicion]) && (estados == 1 || estados == 3 || estados == 5)){
+                estados = 2;
+            }else if(numeros.contains(caracteres[posicion]) && estados == 0){
+                estados = 5;
+            }else if((simbolos.containsKey(caracteres[posicion])) && estados == 0){
+                estados = 6;
+            }else if(caracteres[posicion].equals(" ") && (estados == 1 || estados == 2)){
+                estados = 4;
+            }else if(numeros.contains(caracteres[posicion]) && estados == 1){
+                estados = 3;
+            }else if(caracteres[posicion].equals("\"") && estados == 0){
+                posicion++;
+                while(caracteres[posicion].equals("\"")==false){
+                    posicion++;
+                }
+                tokens.add(new Token(TipoToken.CADENA, "CADENA", null, linea));
+                aux2 = "";
+                estados = 0;
+            }else if(estados == 0){
+                estados = 1;
+            }
+            if(caracteres[posicion].equals(" ") && estados == 4){
+                tokens.add(new Token(TipoToken.ID, "ID", null, linea));
+                aux2 = "";
+                estados = 0;
+            }
             // Comprobacion sobre el primer caracter leido despues de un token.
-            if(aux == "" && numeros.contains(caracteres[posicion])){
-                while(numeros.contains(caracteres[posicion])){
+            if(aux == "" && numeros.contains(caracteres[posicion]) && estados == 5){
+                
+                while(isNumeric(caracteres[posicion])){
                     posicion++;
                 }
                 tokens.add(new Token(TipoToken.NUMERO, "Numero", null, linea));
                 posicion--;
                 aux2 = "";
+                estados = 0;
+            }
+            else if(aux2 != "" && numeros.contains(caracteres[posicion]) && estados == 3){
+                while(caracteres[posicion]!=" " && !(simbolos.containsKey(caracteres[posicion]))){
+                    posicion++;
+                }
+                tokens.add(new Token(TipoToken.ID,"ID",null,linea));
+                posicion--;
+                aux2 = "";
+                estados = 0;
             }
             // Comprobación si la cadena almacenada en el auxiliar es una palabra reservada.
-            else if(palabrasReservadas.containsKey(aux2)){
-                tokens.add(new Token(palabrasReservadas.get(aux2),aux2,null,linea));
-                aux2 = "";
+            else if(palabrasReservadas.containsKey(aux2) && estados == 1){
+                try{
+                    if(true){
+                        tokens.add(new Token(palabrasReservadas.get(aux2),aux2,null,linea));
+                        aux2 = "";
+                        estados = 0;
+                    }
+                }catch(Exception a){}
             }
             // Comprobacion si el caracter actual es un simbolo.
-            else if(simbolos.containsKey(caracteres[posicion])){
+            else if(simbolos.containsKey(caracteres[posicion]) && (estados == 6 || estados == 2)){
                 if(caracteres[posicion].equals("!") || caracteres[posicion].equals("=") || caracteres[posicion].equals("<") || caracteres[posicion].equals(">")){
                     try{
                         aux3 = caracteres[posicion] + caracteres [posicion + 1];
@@ -108,14 +155,17 @@ public class Scanner
                             tokens.add(new Token(simbolosDobles.get(aux3),aux3,null,linea));
                             posicion++;
                             aux2 = "";
+                            estados = 0;
                         }
                     }catch(Exception ex){
                         tokens.add(new Token(simbolos.get(caracteres[posicion]),caracteres[posicion],null,linea));
                         aux2 = "";
+                        estados = 0;
                     }
                 }else{
                     tokens.add(new Token(simbolos.get(caracteres[posicion]),caracteres[posicion],null,linea));
                     aux2 = "";
+                    estados = 0;
                 }
             }
             posicion++;
@@ -130,4 +180,17 @@ public class Scanner
         tokens.add(new Token(TipoToken.EOF, "", null, linea));
         return tokens;
     }
+    boolean isNumeric(String cadena) {
+
+        boolean resultado;
+
+        try {
+            Integer.parseInt(cadena);
+            resultado = true;
+        } catch (NumberFormatException excepcion) {
+            resultado = false;
+        }
+        return resultado;
+    }
+      
 }
