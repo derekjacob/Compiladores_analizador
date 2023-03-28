@@ -23,7 +23,7 @@ public class Scanner
         palabrasReservadas.put("else", TipoToken.ELSE );
         palabrasReservadas.put("false", TipoToken.FALSE );
         palabrasReservadas.put("for", TipoToken.FOR );
-        palabrasReservadas.put("function", TipoToken.FUNCTION ); //definir funciones
+        palabrasReservadas.put("function", TipoToken.FUNCTION );
         palabrasReservadas.put("if", TipoToken.IF );
         palabrasReservadas.put("nulL", TipoToken.NULL );
         palabrasReservadas.put("or", TipoToken.OR );
@@ -32,7 +32,7 @@ public class Scanner
         palabrasReservadas.put("super", TipoToken.SUPER );
         palabrasReservadas.put("this", TipoToken.THIS );
         palabrasReservadas.put("true", TipoToken.TRUE );
-        palabrasReservadas.put("var", TipoToken.VAR ); //definir variables
+        palabrasReservadas.put("var", TipoToken.VAR );
         palabrasReservadas.put("while", TipoToken.WHILE );
         // HashMap para simbolos
         simbolos.put("(", TipoToken.PARENTESIS_ABRE );
@@ -62,11 +62,17 @@ public class Scanner
 
     List<Token> scanTokens(){
         //Aquí va el corazón del scanner.
-
+        // La linea leida es separada en caracteres.
+        String separacion = Pattern.quote("|");
+        String[] caracteres = source.split(separacion);
+                
+                
+        }
         /*
         Analizar el texto de entrada para extraer todos los tokens
         y al final agregar el token de fin de archivo
          */
+        linea++;
         tokens.add(new Token(TipoToken.EOF, "", null, linea));
 
         return tokens;
