@@ -14,7 +14,8 @@ public class Interprete
 
     public static void main(String[] args)
     {
-        if(args.length > 1)
+        ejecutar("int == 0; ");
+        /*if(args.length > 1)
         {
             System.out.println("Uso correcto: interprete [script]");
 
@@ -26,7 +27,7 @@ public class Interprete
         } else
         {
             ejecutarPrompt();
-        }
+        }*/
     }
 
     private static void ejecutarArchivo(String path) throws IOException
