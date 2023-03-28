@@ -79,7 +79,7 @@ public class Scanner
         numeros.add("7");
         numeros.add("8");
         numeros.add("9");
-        String aux = "", aux2 = "";
+        String aux = "", aux2 = "", aux3 = "";
         // La linea leida es separada en caracteres.
         String[] caracteres = source.split("|");
         // Analisis de la linea leida caracter por caracter.
@@ -91,56 +91,43 @@ public class Scanner
                     posicion++;
                 }
                 tokens.add(new Token(TipoToken.NUMERO, "Numero", null, linea));
+                posicion--;
+                aux2 = "";
             }
             // Comprobación si la cadena almacenada en el auxiliar es una palabra reservada.
-            else if(palabrasReservadas.containsKey(aux)){
-                tokens.add(new Token(palabrasReservadas.get(aux),aux,null,linea));
+            else if(palabrasReservadas.containsKey(aux2)){
+                tokens.add(new Token(palabrasReservadas.get(aux2),aux2,null,linea));
                 aux2 = "";
             }
             // Comprobacion si el caracter actual es un simbolo.
             else if(simbolos.containsKey(caracteres[posicion])){
-                tokens.add(new Token(simbolos.get(caracteres[posicion]),caracteres[posicion],null,linea));
-                aux2 = "";
+                if(caracteres[posicion].equals("!") || caracteres[posicion].equals("=") || caracteres[posicion].equals("<") || caracteres[posicion].equals(">")){
+                    try{
+                        aux3 = caracteres[posicion] + caracteres [posicion + 1];
+                        if(simbolosDobles.containsKey(aux3)){
+                            tokens.add(new Token(simbolosDobles.get(aux3),aux3,null,linea));
+                            posicion++;
+                            aux2 = "";
+                        }
+                    }catch(Exception ex){
+                        tokens.add(new Token(simbolos.get(caracteres[posicion]),caracteres[posicion],null,linea));
+                        aux2 = "";
+                    }
+                }else{
+                    tokens.add(new Token(simbolos.get(caracteres[posicion]),caracteres[posicion],null,linea));
+                    aux2 = "";
+                }
             }
+            posicion++;
+            aux = aux2;
         }
             // Auxiliar utilizado para almacenar lo analizado hasta el momento, se reiniciará cuando se detecte un token.
             // Fin de la comprobación.
-            posicion++;
-            aux = aux2;
+            
+            
         
         linea++;
         tokens.add(new Token(TipoToken.EOF, "", null, linea));
-
         return tokens;
     }
-
 }
-/*
-Signos o símbolos del lenguaje:
-(
-)
-{
-}
-,
-.
-;
--
-+
-*
-/
-!
-!=
-=
-==
-<
-<=
->
->=
-// -> comentarios (no se genera token)
-/* ... * / -> comentarios (no se genera token)
-Identificador,
-Cadena
-Numero
-Cada palabra reservada tiene su nombre de token
-
- */
