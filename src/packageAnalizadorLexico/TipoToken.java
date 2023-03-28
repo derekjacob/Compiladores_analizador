@@ -2,12 +2,7 @@ package packageAnalizadorLexico;
 
 public enum TipoToken
 {
-    // Crear un tipoToken por palabra reservada
-    // Crear un tipoToken: identificador, una cadena y numero
-    // Crear un tipoToken por cada "Signo del lenguaje" (ver clase Scanner)
-
-
-    // Palabras clave:
+    // Palabras reservadas:
     AND,
     CLASS,
     ELSE,
@@ -24,7 +19,32 @@ public enum TipoToken
     TRUE,
     VAR,
     WHILE,
-
-    // Final de cadena
+    // Indentificador:
+    ID,
+    // Cadena:
+    CADENA,
+    // Numero:
+    NUMERO,
+    // Signo del lenguaje:
+    PARENTESIS_ABRE,
+    PARENTESIS_CIERRA,
+    LLAVE_ABRE,
+    LLAVE_CIERRA,
+    COMA,
+    PUNTO,
+    PUNTOYCOMA,
+    MENOS,
+    MAS,
+    ASTERISCO,
+    DIAGONAL,
+    ADMIRACION,
+    DIFERENTE,
+    ASIGNACION,
+    IGUAL,
+    MENOR,
+    MENORIGUAL,
+    MAYOR,
+    MAYORIGUAL,
+    // Final de cadena:
     EOF
 }
