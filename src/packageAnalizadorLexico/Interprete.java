@@ -14,7 +14,7 @@ public class Interprete
 
     public static void main(String[] args)
     {
-        ejecutar("int == 0; ");
+        ejecutar("for==00for;");
         /*if(args.length > 1)
         {
             System.out.println("Uso correcto: interprete [script]");
