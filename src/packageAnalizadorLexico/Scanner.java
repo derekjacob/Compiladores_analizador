@@ -16,6 +16,7 @@ public class Scanner
 
     private static final Map<String, TipoToken> palabrasReservadas;
     private static final Map<String, TipoToken> simbolos;
+    private static final Map<String, TipoToken> simbolosDobles;
     static {
         // HashMap para palabras reservadas
         palabrasReservadas = new HashMap<>();
@@ -49,13 +50,15 @@ public class Scanner
         simbolos.put("*", TipoToken.ASTERISCO );
         simbolos.put("/", TipoToken.DIAGONAL );
         simbolos.put("!", TipoToken.ADMIRACION );
-        simbolos.put("!=", TipoToken.DIFERENTE );
         simbolos.put("=", TipoToken.ASIGNACION );
-        simbolos.put("==", TipoToken.IGUAL );
         simbolos.put("<", TipoToken.MENOR );
-        simbolos.put("<=", TipoToken.MENORIGUAL );
         simbolos.put(">", TipoToken.MAYOR );
-        simbolos.put(">=", TipoToken.MAYORIGUAL );
+        // HashMap para simbolos de dos digitos.
+        simbolosDobles = new HashMap<>();
+        simbolosDobles.put("!=", TipoToken.DIFERENTE );
+        simbolosDobles.put("==", TipoToken.IGUAL );
+        simbolosDobles.put("<=", TipoToken.MENORIGUAL );
+        simbolosDobles.put(">=", TipoToken.MAYORIGUAL );
     }
 
     Scanner(String source){
@@ -63,54 +66,55 @@ public class Scanner
     }
 
     List<Token> scanTokens(){
-        // La linea leida es separada en caracteres.
         int posicion = 0;
-        String aux = "", aux2;
+        // Lista para detectar los numeros
+        List<String> numeros = new ArrayList<>();
+        numeros.add("0");
+        numeros.add("1");
+        numeros.add("2");
+        numeros.add("3");
+        numeros.add("4");
+        numeros.add("5");
+        numeros.add("6");
+        numeros.add("7");
+        numeros.add("8");
+        numeros.add("9");
+        String aux = "", aux2 = "";
+        // La linea leida es separada en caracteres.
         String[] caracteres = source.split("|");
         // Analisis de la linea leida caracter por caracter.
         while(posicion < caracteres.length){
             aux2 = aux + caracteres[posicion];
-            // Comprobación si la cadena almacenada en el auxiliar es una palabra reservada.
-            if(palabrasReservadas.containsKey(aux)){
-                tokens.add(new Token(palabrasReservadas.get(aux),aux,null,linea));
-                aux = "";
-            }     
-            // Comprobacion si el caracter actual es un simbolo.
-            if(simbolos.containsKey(caracteres[posicion])){
-                // Comprobacion si el caracter leido y el siguiente forman un simbolo compuesto.
-                if(caracteres[posicion] + caracteres[posicion+1] == "!="){
-                    tokens.add(new Token(simbolos.get("!="),"!=",null,linea));
+            // Comprobacion sobre el primer caracter leido despues de un token.
+            if(aux == "" && numeros.contains(caracteres[posicion])){
+                while(numeros.contains(caracteres[posicion])){
+                    posicion++;
                 }
-                // Comprobacion si el caracter leido y el siguiente forman un simbolo compuesto.
-                else if(caracteres[posicion] + caracteres[posicion+1] == "=="){
-                    tokens.add(new Token(simbolos.get("=="),"==",null,linea));
-                }
-                // Comprobacion si el caracter leido y el siguiente forman un simbolo compuesto.
-                else if(caracteres[posicion] + caracteres[posicion+1] == "<="){
-                    tokens.add(new Token(simbolos.get("<="),"<=",null,linea));
-                }
-                // Comprobacion si el caracter leido y el siguiente forman un simbolo compuesto.
-                else if(caracteres[posicion] + caracteres[posicion+1] == ">="){
-                    tokens.add(new Token(simbolos.get(">="),">=",null,linea));
-                }
-                else{
-                    tokens.add(new Token(simbolos.get(caracteres[posicion]),caracteres[posicion],null,linea));
-                }
+                tokens.add(new Token(TipoToken.NUMERO, "Numero", null, linea));
             }
+            // Comprobación si la cadena almacenada en el auxiliar es una palabra reservada.
+            else if(palabrasReservadas.containsKey(aux)){
+                tokens.add(new Token(palabrasReservadas.get(aux),aux,null,linea));
+                aux2 = "";
+            }
+            // Comprobacion si el caracter actual es un simbolo.
+            else if(simbolos.containsKey(caracteres[posicion])){
+                tokens.add(new Token(simbolos.get(caracteres[posicion]),caracteres[posicion],null,linea));
+                aux2 = "";
+            }
+        }
             // Auxiliar utilizado para almacenar lo analizado hasta el momento, se reiniciará cuando se detecte un token.
-            
-            
             // Fin de la comprobación.
             posicion++;
             aux = aux2;
-        }
+        
         linea++;
         tokens.add(new Token(TipoToken.EOF, "", null, linea));
 
         return tokens;
     }
-}
 
+}
 /*
 Signos o símbolos del lenguaje:
 (
