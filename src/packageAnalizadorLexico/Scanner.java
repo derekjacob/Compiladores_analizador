@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.lang.String;
 
 public class Scanner
 {
@@ -64,37 +65,36 @@ public class Scanner
     List<Token> scanTokens(){
         // La linea leida es separada en caracteres.
         int posicion = 0;
-        String separacion = Pattern.quote("|");
         String aux = "", aux2;
-        String[] caracteres = source.split(separacion);
+        String[] caracteres = source.split("|");
         // Analisis de la linea leida caracter por caracter.
-        while(posicion < caracteres.lenght){
+        while(posicion < caracteres.length){
             aux2 = aux + caracteres[posicion];
             // Comprobación si la cadena almacenada en el auxiliar es una palabra reservada.
             if(palabrasReservadas.containsKey(aux)){
-                tokens.add(new Token(palabrasReservadas.get(aux),aux,null,linea);
+                tokens.add(new Token(palabrasReservadas.get(aux),aux,null,linea));
                 aux = "";
             }     
             // Comprobacion si el caracter actual es un simbolo.
             if(simbolos.containsKey(caracteres[posicion])){
                 // Comprobacion si el caracter leido y el siguiente forman un simbolo compuesto.
                 if(caracteres[posicion] + caracteres[posicion+1] == "!="){
-                    tokens.add(new Token(simbolos.get("!="),"!=",null,linea);
+                    tokens.add(new Token(simbolos.get("!="),"!=",null,linea));
                 }
                 // Comprobacion si el caracter leido y el siguiente forman un simbolo compuesto.
                 else if(caracteres[posicion] + caracteres[posicion+1] == "=="){
-                    tokens.add(new Token(simbolos.get("=="),"==",null,linea);
+                    tokens.add(new Token(simbolos.get("=="),"==",null,linea));
                 }
                 // Comprobacion si el caracter leido y el siguiente forman un simbolo compuesto.
                 else if(caracteres[posicion] + caracteres[posicion+1] == "<="){
-                    tokens.add(new Token(simbolos.get("<="),"<=",null,linea);
+                    tokens.add(new Token(simbolos.get("<="),"<=",null,linea));
                 }
                 // Comprobacion si el caracter leido y el siguiente forman un simbolo compuesto.
                 else if(caracteres[posicion] + caracteres[posicion+1] == ">="){
-                    tokens.add(new Token(simbolos.get(">="),">=",null,linea);
+                    tokens.add(new Token(simbolos.get(">="),">=",null,linea));
                 }
                 else{
-                    tokens.add(new Token(simbolos.get(caracteres[posicion]),caracteres[posicion],null,linea);
+                    tokens.add(new Token(simbolos.get(caracteres[posicion]),caracteres[posicion],null,linea));
                 }
             }
             // Auxiliar utilizado para almacenar lo analizado hasta el momento, se reiniciará cuando se detecte un token.
